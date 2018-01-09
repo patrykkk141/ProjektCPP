@@ -135,12 +135,14 @@ void Interfejs::CommandLineInterface() {
             Macierz macierz;
             listaStringow[1].erase(0, 1);
             listaStringow[1].erase(listaStringow[1].length() - 1, 1);
-            macierz.inicjalizuj(listaStringow[1]);
-            zmienne[listaStringow[0]] = macierz;
+            try {
+                macierz.inicjalizuj(listaStringow[1]);
+            }catch(std::string exc){
+                std::cout<<exc;
+                error=true;
+            }
+                zmienne[listaStringow[0]] = macierz;
 
-            Macierz pom(1,1);
-            pom.ustaw(-2);
-            std::cout<<macierz-pom;
 
         }
     } while (wejscie != "exit");

@@ -36,7 +36,7 @@ void Macierz::ustaw(double liczba) {
 
 void Macierz::inicjalizuj() {
     if (liczbaWierszy < 1 && liczbaKolumn < 1)
-        std::cout << "\nZla liczba wierszy lub kolumn!";
+        return void();
     else {
         macierz = new double *[liczbaWierszy];
         for (int i = 0; i < liczbaWierszy; i++) {
@@ -65,8 +65,7 @@ void Macierz::inicjalizuj(std::string macierz) {
                 pomLiczbaKolumn++;
         }
         if (pomLiczbaKolumn != liczbaKolumn) {
-            std::cout << "\nBlad w liczbie kolumn;";
-            return void();
+            throw std::string("\nBlad w liczbie kolumn");
         }
     }
     this->liczbaKolumn = liczbaKolumn;
