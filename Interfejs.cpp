@@ -29,7 +29,7 @@ void Interfejs::CommandLineInterface() {
                     try {
                         wynik = stosMacierzy.top();
                         stosMacierzy.pop();
-                        wynik +=stosMacierzy.top();
+                        wynik =wynik+stosMacierzy.top();
                         stosMacierzy.pop();
                     } catch (std::string str) {
                         std::cout << str;
@@ -68,18 +68,39 @@ void Interfejs::CommandLineInterface() {
                 else if (tmp == "!") {
                     wynik=stosMacierzy.top();
                     stosMacierzy.pop();
-                    wynik=!wynik;
+                        wynik=!wynik;
                     stosMacierzy.push(wynik);
                 }
                 else if (tmp == "~") {
                     wynik=stosMacierzy.top();
                     stosMacierzy.pop();
-                   liczbaNaMacierz(~wynik);
+                   try{
+                       liczbaNaMacierz(~wynik);
+                   }catch(std::string exc){
+                       std::cout<<exc;
+                       error=true;
+                   }
                 }
                 else if (tmp == "@") {
                     wynik=stosMacierzy.top();
                     stosMacierzy.pop();
-                   wynik=wynik.dopelnienieMacierzy(wynik);
+                  try{
+                      wynik=wynik.dopelnienieMacierzy(wynik);
+                  }catch(std::string exc){
+                      std::cout<<exc;
+                      error=true;
+                  }
+                    stosMacierzy.push(wynik);
+                }
+                else if (tmp == "^") {
+                    wynik=stosMacierzy.top();
+                    stosMacierzy.pop();
+                    try{
+                        wynik=wynik.macierzOdwrotna(wynik);
+                    }catch(std::string exc){
+                        std::cout<<exc;
+                        error=true;
+                    }
                     stosMacierzy.push(wynik);
                 }
                 else {
@@ -117,7 +138,9 @@ void Interfejs::CommandLineInterface() {
             macierz.inicjalizuj(listaStringow[1]);
             zmienne[listaStringow[0]] = macierz;
 
-
+            Macierz pom(1,1);
+            pom.ustaw(-2);
+            std::cout<<macierz-pom;
 
         }
     } while (wejscie != "exit");

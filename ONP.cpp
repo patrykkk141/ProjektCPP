@@ -20,6 +20,7 @@ int ONP::priorytetOperatora(const char znak) {
         case '!': return 3;
         case '~': return 3;
         case '@': return 3;
+        case '^': return 3;
         default : return 0;
     }
 }
@@ -46,10 +47,11 @@ std::string ONP::zamianaNaONP(const std::string wyrazenie) {
                     onp+=" ";
                     licz++;
                 }
-                if(licz>0)
-                    onp.erase(onp.length()-1, 1);
+
                 if(stos.rozmiar()>0)
                     stos.pop();
+                if(licz>0)
+                    onp.erase(onp.length()-1, 1);
                 break;
             case '+':
                dodajOperator(wyrazenie, i);
@@ -65,7 +67,11 @@ std::string ONP::zamianaNaONP(const std::string wyrazenie) {
                 break;
             case '!':
                 dodajOperator(wyrazenie, i);
+                break;
             case '@':
+                dodajOperator(wyrazenie, i);
+                break;
+            case '^':
                 dodajOperator(wyrazenie, i);
                 break;
             default:

@@ -358,12 +358,27 @@ Macierz Macierz::dopelnienieMacierzy(const Macierz &wzor) {
     Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
     for(int i=0; i<liczbaWierszy; i++){
         for(int j=0; j<liczbaKolumn; j++){
-            if(wzor.liczbaKolumn<3 && wzor.liczbaWierszy<3){
-                std::cout<<"\nThis: "<<*this;
-                wynik.macierz[i][j]= pow(-1, i+j+2)*wyznacznikMacierzy(*this);
-            }else{
-                wynik.macierz[i][j]=pow(-1, i+j+2)*wyznacznikMacierzy(usun(i,j));
-            }
+            wynik.macierz[i][j]=pow(-1, i+j+2)*wyznacznikMacierzy(usun(i,j));
+        }
+    }
+    return wynik;
+}
+
+Macierz Macierz::macierzOdwrotna(const Macierz &wzor) {
+    Macierz wynik = wzor;
+    double wyznacznik=1/(~wynik);
+    wynik = dopelnienieMacierzy(wzor);
+    wynik = !wynik;
+    wynik=wynik*wyznacznik;
+
+    return wynik;
+}
+
+Macierz Macierz::operator*(double liczba) {
+    Macierz wynik=*this;
+    for(int i=0; i<liczbaWierszy; i++){
+        for(int j=0; j<liczbaKolumn; j++){
+            wynik.macierz[i][j]*=liczba;
         }
     }
     return wynik;

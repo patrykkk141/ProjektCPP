@@ -21,11 +21,13 @@ public:
     Macierz operator+(const Macierz &wzor);
     Macierz operator-(const Macierz &wzor);
     Macierz operator*(const Macierz &wzor);
+    Macierz operator*(double liczba);
     Macierz operator!();
     double operator~();
     Macierz& operator+=(const Macierz& wzor);
     Macierz& operator-=(const Macierz& wzor);
     Macierz dopelnienieMacierzy(const Macierz &wzor);
+    Macierz macierzOdwrotna(const Macierz &wzor);
 
 private:
     int liczbaKolumn = 0;
