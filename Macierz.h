@@ -20,12 +20,11 @@ public:
     Macierz &operator=(const Macierz &wzor);
     Macierz operator+(const Macierz &wzor);
     Macierz operator-(const Macierz &wzor);
-    Macierz operator-(const int liczba);
     Macierz operator*(const Macierz &wzor);
-    Macierz operator*(const int liczba);
     Macierz operator~();
     double operator!();
     Macierz& operator+=(const Macierz& wzor);
+    Macierz& operator-=(const Macierz& wzor);
 
 private:
     int liczbaKolumn = 0;

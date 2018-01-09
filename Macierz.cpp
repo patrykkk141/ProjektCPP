@@ -152,6 +152,16 @@ Macierz Macierz::operator-(const Macierz &wzor) {
         }
         return wynik;
     }
+   else if(wzor.liczbaKolumn==1 && wzor.liczbaWierszy==1)
+    {
+        Macierz wynik(liczbaWierszy, liczbaKolumn);
+        for(int i=0; i<liczbaWierszy; i++){
+            for(int j=0; j<liczbaKolumn; j++){
+                wynik.macierz[i][j]=macierz[i][j]-wzor.macierz[0][0];
+            }
+        }
+        return wynik;
+    }
     else if (this->liczbaWierszy == wzor.liczbaWierszy && this->liczbaKolumn == wzor.liczbaKolumn) {
         Macierz wynik = *this;
         for (int i = 0; i < liczbaWierszy; i++) {
@@ -161,33 +171,23 @@ Macierz Macierz::operator-(const Macierz &wzor) {
         }
         return wynik;
     } else {
-        throw std::string("\nNieporpawny rozmiar macierzy");
+        throw std::string("\nNieporpawny rozmiar macierzy podczas odejmowania");
     }
 }
 
-
-Macierz Macierz::operator-(const int liczba) {
-    Macierz wynik = *this;
-    for (int i = 0; i < liczbaWierszy; i++) {
-        for (int j = 0; j < liczbaKolumn; j++) {
-            wynik.macierz[i][j] -= liczba;
-        }
-    }
-    return wynik;
-}
-
-Macierz Macierz::operator*(const int liczba) {
-    Macierz wynik = *this;
-    for (int i = 0; i < liczbaWierszy; i++) {
-        for (int j = 0; j < liczbaKolumn; j++) {
-            wynik.macierz[i][j] *= liczba;
-        }
-    }
-    return wynik;
-}
 
 Macierz Macierz::operator*(const Macierz &wzor) {
-    if(wzor.liczbaKolumn==1 && wzor.liczbaWierszy==1)
+    if(this->liczbaKolumn==1 && this->liczbaWierszy==1) {
+        Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
+        for (int i = 0; i < wzor.liczbaWierszy; i++) {
+            for (int j = 0; j < wzor.liczbaKolumn; j++) {
+                wynik.macierz[i][j] = wzor.macierz[i][j] * this->macierz[0][0];
+            }
+        }
+        return wynik;
+    }
+
+    else if(wzor.liczbaKolumn==1 && wzor.liczbaWierszy==1)
     {
         Macierz wynik(liczbaWierszy, liczbaKolumn);
         for(int i=0; i<liczbaWierszy; i++){
@@ -198,7 +198,7 @@ Macierz Macierz::operator*(const Macierz &wzor) {
         return wynik;
     }
     else if (liczbaKolumn != wzor.liczbaWierszy) {
-        throw std::string("\nNiepoprawne wymiary macierzy");
+        throw std::string("\nNiepoprawne wymiary macierzy podczas mnozenia");
     } else {
         Macierz wynik(liczbaWierszy, wzor.liczbaKolumn);
         for (int i = 0; i < liczbaWierszy; i++) {
@@ -291,7 +291,18 @@ Macierz Macierz::usun(const int numerWiersza, const int numerKolumny) {
 }
 
 Macierz &Macierz::operator+=(const Macierz &wzor) {
-    if(wzor.liczbaKolumn==1 & wzor.liczbaWierszy==1){
+    if(this->liczbaKolumn == 1 && this->liczbaWierszy == 1)
+    {
+        Macierz wynik=wzor;
+        for(int i=0; i<liczbaWierszy; i++){
+            for(int j=0; j<liczbaKolumn; j++){
+               wynik.macierz[i][j]=wzor.macierz[i][j]+this->macierz[0][0];
+            }
+        }
+        *this=wzor;
+        return *this;
+    }
+    else if(wzor.liczbaKolumn==1 & wzor.liczbaWierszy==1){
         for(int i=0; i<liczbaWierszy; i++){
             for(int j=0; j<liczbaKolumn; j++){
                 this->macierz[i][j]+=wzor.macierz[0][0];
@@ -314,3 +325,35 @@ Macierz Macierz::dopelnienieMacierzy() {
     Macierz wynik=*this;
   return *this;
 }
+
+Macierz &Macierz::operator-=(const Macierz &wzor) {
+    if(this->liczbaKolumn == 1 && this->liczbaWierszy == 1)
+    {
+        Macierz wynik=wzor;
+        for(int i=0; i<liczbaWierszy; i++){
+            for(int j=0; j<liczbaKolumn; j++){
+                wynik.macierz[i][j]=wzor.macierz[i][j]-this->macierz[0][0];
+            }
+        }
+        *this=wzor;
+        return *this;
+    }
+    else if(wzor.liczbaKolumn==1 & wzor.liczbaWierszy==1){
+        for(int i=0; i<liczbaWierszy; i++){
+            for(int j=0; j<liczbaKolumn; j++){
+                this->macierz[i][j]-=wzor.macierz[0][0];
+            }
+        }
+        return *this;
+    }    else if(this->liczbaKolumn==wzor.liczbaKolumn && this->liczbaWierszy==wzor.liczbaWierszy){
+        for(int i=0; i<liczbaWierszy; i++){
+            for(int j=0; j<liczbaKolumn; j++){
+                this->macierz[i][j]-=wzor.macierz[i][j];
+            }
+        }
+        return *this;
+    }else{
+        throw std::string("\nNieprawidlowy rozmiar macierzy podczas odejmowania");
+    }
+}
+

@@ -37,7 +37,7 @@ void Interfejs::CommandLineInterface() {
                     try {
                         wynik = stosMacierzy.top();
                         stosMacierzy.pop();
-                        wynik = wynik + stosMacierzy.top();
+                        wynik +=stosMacierzy.top();
                         stosMacierzy.pop();
                     } catch (std::string str) {
                         std::cout << str;
@@ -45,7 +45,35 @@ void Interfejs::CommandLineInterface() {
                        break;
                     }
                     stosMacierzy.push(wynik);
-                } else {
+                }else if (tmp == "*") {
+                    try {
+                        Macierz pom=stosMacierzy.top();
+                        stosMacierzy.pop();
+                        wynik=stosMacierzy.top();
+                        stosMacierzy.pop();
+                        wynik = wynik*pom;
+
+                    } catch (std::string str) {
+                        std::cout << str;
+                        error=true;
+                        break;
+                    }
+                    stosMacierzy.push(wynik);
+                }
+                else if (tmp == "-") {
+                    try {
+                        wynik = stosMacierzy.top();
+                        stosMacierzy.pop();
+                        wynik = stosMacierzy.top()-wynik;
+                        stosMacierzy.pop();
+                    } catch (std::string str) {
+                        std::cout << str;
+                        error=true;
+                        break;
+                    }
+                    stosMacierzy.push(wynik);
+                }
+                else {
                 try{
                     czyZmiennaIstnieje(tmp);
                 }catch (std::string exc){
@@ -79,6 +107,7 @@ void Interfejs::CommandLineInterface() {
             listaStringow[1].erase(listaStringow[1].length() - 1, 1);
             macierz.inicjalizuj(listaStringow[1]);
             zmienne[listaStringow[0]] = macierz;
+
 
 
         }
