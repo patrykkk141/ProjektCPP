@@ -24,7 +24,9 @@ private:
     void dzielWyrazenie(const std::string wejscie);
     void czyscStos();
     ONP odwrotnaNotacjaPolska;
-    void czyZmiennaIstnieje(std::string zmienna);
+    void czyZmiennaIstnieje(const std::string zmienna);
+    void liczbaNaMacierz(const std::string liczba);
+    void liczbaNaMacierz(const double liczba);
 
     ///****Sprawdzanie Wyrazen Regularnych
     bool sprawdzZmienna(const std::string nazwaZmiennej);

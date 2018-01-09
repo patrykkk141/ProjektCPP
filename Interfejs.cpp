@@ -24,15 +24,7 @@ void Interfejs::CommandLineInterface() {
             std::stringstream bufor(wyrazenieWOnp);
             while (getline(bufor, tmp, ' ')) {
                 if (sprawdzLiczbe(tmp)) {
-                    double wartosc=0;
-                    try {
-                        wartosc = std::stod(tmp);
-                    } catch (std::invalid_argument) {
-                        std::cout << "\nBlad podczas parsowania";
-                    }
-                    Macierz liczba(1, 1);
-                    liczba.ustaw(wartosc);
-                    stosMacierzy.push(liczba);
+                    liczbaNaMacierz(tmp);
                 } else if (tmp == "+") {
                     try {
                         wynik = stosMacierzy.top();
@@ -71,6 +63,23 @@ void Interfejs::CommandLineInterface() {
                         error=true;
                         break;
                     }
+                    stosMacierzy.push(wynik);
+                }
+                else if (tmp == "!") {
+                    wynik=stosMacierzy.top();
+                    stosMacierzy.pop();
+                    wynik=!wynik;
+                    stosMacierzy.push(wynik);
+                }
+                else if (tmp == "~") {
+                    wynik=stosMacierzy.top();
+                    stosMacierzy.pop();
+                   liczbaNaMacierz(~wynik);
+                }
+                else if (tmp == "@") {
+                    wynik=stosMacierzy.top();
+                    stosMacierzy.pop();
+                   wynik=wynik.dopelnienieMacierzy(wynik);
                     stosMacierzy.push(wynik);
                 }
                 else {
@@ -144,7 +153,7 @@ void Interfejs::czyscStos() {
 
 }
 
-void Interfejs::czyZmiennaIstnieje(std::string zmienna) {
+void Interfejs::czyZmiennaIstnieje(const std::string zmienna) {
     int licznik = 0;
     licznik = zmienne.count(zmienna);
     if (licznik == 0) {
@@ -152,6 +161,24 @@ void Interfejs::czyZmiennaIstnieje(std::string zmienna) {
     } else {
         stosMacierzy.push(zmienne[zmienna]);
     }
+}
+
+void Interfejs::liczbaNaMacierz(const std::string liczba) {
+    double wartosc=0;
+    try {
+        wartosc = std::stod(liczba);
+    } catch (std::invalid_argument) {
+        std::cout << "\nBlad podczas parsowania";
+    }
+    Macierz nowa(1, 1);
+    nowa.ustaw(wartosc);
+    stosMacierzy.push(nowa);
+}
+
+void Interfejs::liczbaNaMacierz(const double liczba) {
+    Macierz nowa(1, 1);
+    nowa.ustaw(liczba);
+    stosMacierzy.push(nowa);
 }
 
 

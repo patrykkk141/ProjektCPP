@@ -21,17 +21,18 @@ public:
     Macierz operator+(const Macierz &wzor);
     Macierz operator-(const Macierz &wzor);
     Macierz operator*(const Macierz &wzor);
-    Macierz operator~();
-    double operator!();
+    Macierz operator!();
+    double operator~();
     Macierz& operator+=(const Macierz& wzor);
     Macierz& operator-=(const Macierz& wzor);
+    Macierz dopelnienieMacierzy(const Macierz &wzor);
 
 private:
     int liczbaKolumn = 0;
     int liczbaWierszy = 0;
     double **macierz;
     double wyznacznikMacierzy(const Macierz &wzor);
-    static Macierz dopelnienieMacierzy(const Macierz &wzor, int numerWiersza);
     Macierz usun(int numerWiersza, int numerKolumny);
-    Macierz dopelnienieMacierzy();
+    static Macierz usun(const Macierz &wzor, int numerWiersza);
+
 };

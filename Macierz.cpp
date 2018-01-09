@@ -214,7 +214,7 @@ Macierz Macierz::operator*(const Macierz &wzor) {
     }
 }
 
-Macierz Macierz::operator~() {
+Macierz Macierz::operator!() {
     Macierz wynik(liczbaKolumn, liczbaWierszy);
     for(int i=0; i<liczbaKolumn; i++){
         for(int j=0; j<liczbaWierszy; j++){
@@ -225,7 +225,8 @@ Macierz Macierz::operator~() {
 }
 
 
-Macierz Macierz::dopelnienieMacierzy(const Macierz &wzor,  int numerWiersza) {
+
+Macierz Macierz::usun(const Macierz &wzor,  int numerWiersza) {
    Macierz wynik(wzor.liczbaWierszy-1, wzor.liczbaKolumn-1);
     for(int i=0; i<numerWiersza && i<wynik.liczbaWierszy; i++){
         for(int j=0; j<wynik.liczbaWierszy; j++){
@@ -252,15 +253,14 @@ double Macierz::wyznacznikMacierzy(const Macierz &wzor) {
         else{
             double wyznacznik=0;
             for(int i=0; i<wzor.liczbaWierszy; i++){
-                wyznacznik+=wzor.macierz[i][0]*pow(-1,i+1)*wyznacznikMacierzy(dopelnienieMacierzy(wzor,i));
+                wyznacznik+=wzor.macierz[i][0]*pow(-1,i+1)*wyznacznikMacierzy(usun(wzor,i));
             }
             return wyznacznik;
         }
     }
-
 }
 
-double Macierz::operator!() {
+double Macierz::operator~() {
     return wyznacznikMacierzy(*this);
 }
 
@@ -321,10 +321,7 @@ Macierz &Macierz::operator+=(const Macierz &wzor) {
     }
 }
 
-Macierz Macierz::dopelnienieMacierzy() {
-    Macierz wynik=*this;
-  return *this;
-}
+
 
 Macierz &Macierz::operator-=(const Macierz &wzor) {
     if(this->liczbaKolumn == 1 && this->liczbaWierszy == 1)
@@ -355,5 +352,20 @@ Macierz &Macierz::operator-=(const Macierz &wzor) {
     }else{
         throw std::string("\nNieprawidlowy rozmiar macierzy podczas odejmowania");
     }
+}
+
+Macierz Macierz::dopelnienieMacierzy(const Macierz &wzor) {
+    Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
+    for(int i=0; i<liczbaWierszy; i++){
+        for(int j=0; j<liczbaKolumn; j++){
+            if(wzor.liczbaKolumn<3 && wzor.liczbaWierszy<3){
+                std::cout<<"\nThis: "<<*this;
+                wynik.macierz[i][j]= pow(-1, i+j+2)*wyznacznikMacierzy(*this);
+            }else{
+                wynik.macierz[i][j]=pow(-1, i+j+2)*wyznacznikMacierzy(usun(i,j));
+            }
+        }
+    }
+    return wynik;
 }
 
