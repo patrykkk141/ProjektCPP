@@ -26,15 +26,14 @@ public:
     double operator~();
     Macierz& operator+=(const Macierz& wzor);
     Macierz& operator-=(const Macierz& wzor);
-    Macierz dopelnienieMacierzy(const Macierz &wzor);
-    Macierz macierzOdwrotna(const Macierz &wzor);
-
+    Macierz dopelnienieMacierzy();
+    Macierz macierzOdwrotna( Macierz &wzor);
 private:
     int liczbaKolumn = 0;
     int liczbaWierszy = 0;
     double **macierz;
     double wyznacznikMacierzy(const Macierz &wzor);
-    Macierz usun(int numerWiersza, int numerKolumny);
     static Macierz usun(const Macierz &wzor, int numerWiersza);
+    Macierz usun(int numerWiersza, int numerKolumny);
 
 };

@@ -90,7 +90,8 @@ std::string ONP::zamianaNaONP(const std::string wyrazenie) {
 }
 
 void ONP::dodajOperator(std::string wyrazenie, int i) {
-    onp+=" ";
+    if(onp[onp.length()-1]!=' ')
+        onp+=" ";
     if(priorytetOperatora(wyrazenie[i])>priorytetOperatora(stos.sprawdzWierzcholek())){
         stos.push(wyrazenie[i]);
     }else{

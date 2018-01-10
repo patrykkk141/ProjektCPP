@@ -85,7 +85,7 @@ void Interfejs::CommandLineInterface() {
                     wynik=stosMacierzy.top();
                     stosMacierzy.pop();
                   try{
-                      wynik=wynik.dopelnienieMacierzy(wynik);
+                      wynik=wynik.dopelnienieMacierzy();
                   }catch(std::string exc){
                       std::cout<<exc;
                       error=true;
@@ -124,12 +124,12 @@ void Interfejs::CommandLineInterface() {
         } else {
             dzielWyrazenie(wejscie);
             if (!sprawdzZmienna(listaStringow[0])) {
-                std::cout << "\nNiepoprawna nazwa zmiennej";
+                std::cout << "\nNiepoprawna nazwa zmiennej\n";
                 continue;
             }
 
             if (!sprawdzMacierz(listaStringow[1])) {
-                std::cout << "\nBlad w macierzy";
+                std::cout << "\nBlad w macierzy\n";
                 continue;
             }
             Macierz macierz;
@@ -142,6 +142,7 @@ void Interfejs::CommandLineInterface() {
                 error=true;
             }
                 zmienne[listaStringow[0]] = macierz;
+
 
 
         }
