@@ -250,7 +250,11 @@ double Macierz::wyznacznikMacierzy(const Macierz &wzor) {
         else{
             double wyznacznik=0;
             for(int i=0; i<wzor.liczbaWierszy; i++){
+                double pom;
                 wyznacznik+=wzor.macierz[i][0]*pow(-1,i+1)*wyznacznikMacierzy(usun(wzor,i));
+            }
+            if(this->liczbaWierszy%2!=0) {
+                wyznacznik *= -1;
             }
             return wyznacznik;
         }
@@ -280,7 +284,7 @@ Macierz Macierz::usun(const int numerWiersza, const int numerKolumny) {
         }
     }
     for(int i=numerWiersza; i<wynik.liczbaWierszy; i++){
-        for(int j=numerKolumny; j<wynik.liczbaKolumn; j++){
+        for(int j=numerKolumny; wynik.liczbaKolumn; j++){
             wynik.macierz[i][j]=macierz[i+1][j+1];
         }
     }
@@ -350,7 +354,7 @@ Macierz &Macierz::operator-=(const Macierz &wzor) {
         throw std::string("\nNieprawidlowy rozmiar macierzy podczas odejmowania\n");
     }
 }
-
+/*
 Macierz Macierz::dopelnienieMacierzy() {
     Macierz wynik(this->liczbaWierszy, this->liczbaKolumn);
     for(int i=0; i<liczbaWierszy; i++){
@@ -359,25 +363,25 @@ Macierz Macierz::dopelnienieMacierzy() {
         }
     }
     return wynik;
-}
+}*/
 
-/*Macierz Macierz::dopelnienieMacierzy(const Macierz &wzor) {
+Macierz Macierz::dopelnienieMacierzy(const Macierz &wzor) {
     Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
     for(int i=0; i<liczbaWierszy; i++){
         for(int j=0; j<liczbaKolumn; j++){
             wynik.macierz[i][j]=wyznacznikMacierzy(usun(i,j));
-            std::cout<<"\nWyznacznik : \n"<<usun(i,j);
+           // std::cout<<"\nWyznacznik : \n"<<usun(i,j);
         }
     }
     return wynik;
-}*/
+}
 
 Macierz Macierz::macierzOdwrotna( Macierz &wzor) {
     Macierz wynik = wzor;
     if(~wynik==0)
         throw std::string("\nNie mozna policzyc macierzy odwrotnej gdy wyznacznik =0 \n");
     double wyznacznik=1/(~wynik);
-    wynik = wzor.dopelnienieMacierzy();
+    wynik = wzor.dopelnienieMacierzy(wzor);
     wynik = !wynik;
     wynik=wynik*wyznacznik;
 
