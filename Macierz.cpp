@@ -85,7 +85,7 @@ void Macierz::inicjalizuj(std::string macierz) {
 std::ostream &operator<<(std::ostream &wy, const Macierz &p) {
     for (int i = 0; i < p.liczbaWierszy; i++) {
         for (int j = 0; j < p.liczbaKolumn; j++) {
-            wy << p.macierz[i][j] << " ";
+            wy <<std::fixed<< p.macierz[i][j] << " ";
         }
         wy << "\n";
     }
@@ -250,7 +250,6 @@ double Macierz::wyznacznikMacierzy(const Macierz &wzor) {
         else{
             double wyznacznik=0;
             for(int i=0; i<wzor.liczbaWierszy; i++){
-                double pom;
                 wyznacznik+=wzor.macierz[i][0]*pow(-1,i+1)*wyznacznikMacierzy(usun(wzor,i));
             }
             if(this->liczbaWierszy%2!=0) {
@@ -359,7 +358,16 @@ Macierz Macierz::dopelnienieMacierzy() {
     Macierz wynik(this->liczbaWierszy, this->liczbaKolumn);
     for(int i=0; i<liczbaWierszy; i++){
         for(int j=0; j<liczbaKolumn; j++) {
-        wynik.macierz[i][j]=pow(-1,i+j+2)*wyznacznikMacierzy(this->usun(i,j));
+            if(this->liczbaWierszy==2){
+                Macierz pom=this->usun(i,j);
+                wynik.macierz[i][j]=pow(-1,i+j+2)*pom.macierz[0][0];
+            }
+            else if(this->liczbaWierszy%2!=0){
+                wynik.macierz[i][j]=pow(-1,i+j+2)*wyznacznikMacierzy(this->usun(i,j));
+            }
+            else{
+                wynik.macierz[i][j]=pow(-1,i+j+1)*wyznacznikMacierzy(this->usun(i,j));
+            }
         }
     }
     return wynik;
