@@ -14,7 +14,7 @@ int main() {
             "\n! - Macierz transponowana (operator lewostronny)"
             "\n~ - Wyznczanik macierzy (operator lewostronny)"
             "\n@ - Macierz dopelnien algebraicznych (operator lewostronny) "
-            "\n^ - Macierz odwrotna (operator lewostronny)";
+            "\n^ - Macierz odwrotna (operator lewostronny)\n";
 
     Interfejs intf;
     intf.CommandLineInterface();

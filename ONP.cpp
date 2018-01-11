@@ -43,6 +43,7 @@ std::string ONP::zamianaNaONP(const std::string wyrazenie) {
                 licz=0;
                 onp+=" ";
                 while(stos.sprawdzWierzcholek()!='(' && stos.rozmiar()>0){
+                    bool sprawdz=stos.sprawdzWierzcholek()!='(';
                     onp+=stos.pop();
                     onp+=" ";
                     licz++;
@@ -95,6 +96,7 @@ void ONP::dodajOperator(std::string wyrazenie, int i) {
     if(priorytetOperatora(wyrazenie[i])>priorytetOperatora(stos.sprawdzWierzcholek())){
         stos.push(wyrazenie[i]);
     }else{
+        //TODO TUTAJ ZMIENIL SIE ZNAK Z <= na <
         while(priorytetOperatora(wyrazenie[i])<=priorytetOperatora(stos.sprawdzWierzcholek()) || stos.rozmiar()>0){
             if(stos.sprawdzWierzcholek()=='(' && stos.rozmiar()>0)
             {

@@ -31,8 +31,5 @@ int StosZnakow::rozmiar() const {
 }
 
 char StosZnakow::sprawdzWierzcholek() const {
-    if (wierzcholek<0)
-        return '\n';
-    else
         return stos[wierzcholek-1];
 }
