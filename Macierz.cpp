@@ -174,6 +174,7 @@ Macierz Macierz::operator-(const Macierz &wzor) {
 
 
 Macierz Macierz::operator*(const Macierz &wzor) {
+    //*** liczba*macierz
     if(this->liczbaKolumn==1 && this->liczbaWierszy==1) {
         Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
         for (int i = 0; i < wzor.liczbaWierszy; i++) {
@@ -183,7 +184,7 @@ Macierz Macierz::operator*(const Macierz &wzor) {
         }
         return wynik;
     }
-
+    ///*** macierz * liczba
     else if(wzor.liczbaKolumn==1 && wzor.liczbaWierszy==1)
     {
         Macierz wynik(liczbaWierszy, liczbaKolumn);
@@ -194,13 +195,14 @@ Macierz Macierz::operator*(const Macierz &wzor) {
         }
         return wynik;
     }
+        //*** Niepoprawny wymiar macierzy
     else if (liczbaKolumn != wzor.liczbaWierszy) {
         throw std::string("\nNiepoprawne wymiary macierzy podczas mnozenia\n");
     } else {
         Macierz wynik(liczbaWierszy, wzor.liczbaKolumn);
         for (int i = 0; i < liczbaWierszy; i++) {
             for (int j = 0; j < liczbaKolumn; j++) {
-                int suma=0;
+                double suma=0;
                 for(int k=0; k<liczbaKolumn; k++){
                 suma=suma+macierz[i][k]*wzor.macierz[k][j];
                 }
