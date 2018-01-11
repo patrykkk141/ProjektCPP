@@ -33,7 +33,6 @@ private:
     bool sprawdzMacierz(const std::string wzorMacierzy);
     bool sprawdzLiczbe(const std::string liczba);
 
-    //***********Wprowadzam tutaj powazne zmiany
-    //**********Teste git
+
 };
 

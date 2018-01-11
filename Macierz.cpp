@@ -408,4 +408,3 @@ Macierz Macierz::operator*(double liczba) {
     }
     return wynik;
 }
-

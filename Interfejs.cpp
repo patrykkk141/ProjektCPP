@@ -184,7 +184,7 @@ void Interfejs::czyZmiennaIstnieje(const std::string zmienna) {
     int licznik = 0;
     licznik = zmienne.count(zmienna);
     if (licznik == 0) {
-        throw std::string("\nNieznana zmienna");
+        throw std::string("\nNieznana zmienna\n");
     } else {
         stosMacierzy.push(zmienne[zmienna]);
     }
@@ -195,7 +195,7 @@ void Interfejs::liczbaNaMacierz(const std::string liczba) {
     try {
         wartosc = std::stod(liczba);
     } catch (std::invalid_argument) {
-        std::cout << "\nBlad podczas parsowania";
+        std::cout << "\nBlad podczas parsowania\n";
     }
     Macierz nowa(1, 1);
     nowa.ustaw(wartosc);
