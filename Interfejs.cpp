@@ -85,7 +85,7 @@ void Interfejs::CommandLineInterface() {
                     wynik=stosMacierzy.top();
                     stosMacierzy.pop();
                   try{
-                      wynik=wynik.dopelnienieMacierzy(wynik);
+                      wynik=wynik.dopelnienieMacierzy();
                   }catch(std::string exc){
                       std::cout<<exc;
                       error=true;
