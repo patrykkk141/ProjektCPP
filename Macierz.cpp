@@ -201,7 +201,7 @@ Macierz Macierz::operator*(const Macierz &wzor) {
     } else {
         Macierz wynik(liczbaWierszy, wzor.liczbaKolumn);
         for (int i = 0; i < liczbaWierszy; i++) {
-            for (int j = 0; j < liczbaKolumn; j++) {
+            for (int j = 0; j < wzor.liczbaKolumn; j++) {
                 double suma=0;
                 for(int k=0; k<liczbaKolumn; k++){
                 suma=suma+macierz[i][k]*wzor.macierz[k][j];
