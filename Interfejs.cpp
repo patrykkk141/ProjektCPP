@@ -9,6 +9,7 @@ Interfejs::~Interfejs() {
 }
 
 void Interfejs::CommandLineInterface() {
+   std::cout.precision(4);
     do {
         error=false;
         czyscStos();

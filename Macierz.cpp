@@ -85,7 +85,7 @@ void Macierz::inicjalizuj(std::string macierz) {
 std::ostream &operator<<(std::ostream &wy, const Macierz &p) {
     for (int i = 0; i < p.liczbaWierszy; i++) {
         for (int j = 0; j < p.liczbaKolumn; j++) {
-            wy << p.macierz[i][j] << " ";
+            wy <<std::fixed<< p.macierz[i][j] << " ";
         }
         wy << "\n";
     }
@@ -174,6 +174,7 @@ Macierz Macierz::operator-(const Macierz &wzor) {
 
 
 Macierz Macierz::operator*(const Macierz &wzor) {
+    //*** liczba*macierz
     if(this->liczbaKolumn==1 && this->liczbaWierszy==1) {
         Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
         for (int i = 0; i < wzor.liczbaWierszy; i++) {
@@ -183,7 +184,7 @@ Macierz Macierz::operator*(const Macierz &wzor) {
         }
         return wynik;
     }
-
+    ///*** macierz * liczba
     else if(wzor.liczbaKolumn==1 && wzor.liczbaWierszy==1)
     {
         Macierz wynik(liczbaWierszy, liczbaKolumn);
@@ -194,13 +195,14 @@ Macierz Macierz::operator*(const Macierz &wzor) {
         }
         return wynik;
     }
+        //*** Niepoprawny wymiar macierzy
     else if (liczbaKolumn != wzor.liczbaWierszy) {
         throw std::string("\nNiepoprawne wymiary macierzy podczas mnozenia\n");
     } else {
         Macierz wynik(liczbaWierszy, wzor.liczbaKolumn);
         for (int i = 0; i < liczbaWierszy; i++) {
-            for (int j = 0; j < liczbaKolumn; j++) {
-                int suma=0;
+            for (int j = 0; j < wzor.liczbaKolumn; j++) {
+                double suma=0;
                 for(int k=0; k<liczbaKolumn; k++){
                 suma=suma+macierz[i][k]*wzor.macierz[k][j];
                 }
@@ -238,7 +240,27 @@ Macierz Macierz::usun(const Macierz &wzor,  int numerWiersza) {
     return wynik;
 }
 
-
+double Macierz::wyznacznikMacierzy(const Macierz &wzor) {
+    if(wzor.liczbaWierszy!=wzor.liczbaKolumn){
+        throw std::string("\nWyznacznik mozna liczyc jedynie z macierzy kwadratowej\n");
+    }else{
+        if(wzor.liczbaWierszy==1)
+            return macierz[0][0];
+        else if(wzor.liczbaWierszy==2){
+            return wzor.macierz[0][0]*wzor.macierz[1][1]-wzor.macierz[1][0]*wzor.macierz[0][1];
+        }
+        else{
+            double wyznacznik=0;
+            for(int i=0; i<wzor.liczbaWierszy; i++){
+                wyznacznik+=wzor.macierz[i][0]*pow(-1,i+1)*wyznacznikMacierzy(usun(wzor,i));
+            }
+            if(this->liczbaWierszy%2!=0) {
+                wyznacznik *= -1;
+            }
+            return wyznacznik;
+        }
+    }
+}
 
 double Macierz::operator~() {
     return wyznacznikMacierzy(*this);
@@ -333,41 +355,38 @@ Macierz &Macierz::operator-=(const Macierz &wzor) {
         throw std::string("\nNieprawidlowy rozmiar macierzy podczas odejmowania\n");
     }
 }
-double Macierz::wyznacznikMacierzy(const Macierz &wzor) {
-    if(wzor.liczbaWierszy!=wzor.liczbaKolumn){
-        throw std::string("\nWyznacznik mozna liczyc jedynie z macierzy kwadratowej\n");
-    }else{
-        if(wzor.liczbaWierszy==1) {
 
-            return macierz[0][0];
-        }
-        else if(wzor.liczbaWierszy==2){
-            return wzor.macierz[0][0]*wzor.macierz[1][1]-wzor.macierz[1][0]*wzor.macierz[0][1];
-        }
-        else{
-            double wyznacznik=0;
-            for(int i=0; i<wzor.liczbaWierszy; i++){
-                wyznacznik+=pow(-1,i+1)*wzor.macierz[i][0]*wyznacznikMacierzy(usun(wzor,i));
-            }
-            if(wzor.liczbaKolumn%2!=0){
-                wyznacznik*=-1;
-            }
-            return wyznacznik;
-        }
-    }
-}
 Macierz Macierz::dopelnienieMacierzy() {
     Macierz wynik(this->liczbaWierszy, this->liczbaKolumn);
     for(int i=0; i<liczbaWierszy; i++){
         for(int j=0; j<liczbaKolumn; j++) {
-            Macierz pom=usun(i,j);
-        wynik.macierz[i][j]=pom.macierz[0][0]*pow(-1,i+j+2);
-
+            if(this->liczbaWierszy==2){
+                Macierz pom=this->usun(i,j);
+                wynik.macierz[i][j]=pow(-1,i+j+2)*pom.macierz[0][0];
+            }
+            else if(this->liczbaWierszy%2!=0){
+                wynik.macierz[i][j]=pow(-1,i+j+2)*wyznacznikMacierzy(this->usun(i,j));
+            }
+            else{
+                wynik.macierz[i][j]=pow(-1,i+j+1)*wyznacznikMacierzy(this->usun(i,j));
+            }
         }
     }
     return wynik;
 }
 
+//****************DZIALAJACA WERSJA****************
+/*
+Macierz Macierz::dopelnienieMacierzy(const Macierz &wzor) {
+    Macierz wynik(wzor.liczbaWierszy, wzor.liczbaKolumn);
+    for(int i=0; i<liczbaWierszy; i++){
+        for(int j=0; j<liczbaKolumn; j++){
+            wynik.macierz[i][j]=wyznacznikMacierzy(usun(i,j))*pow(-1,i+j+2);
+        }
+    }
+    return wynik;
+}
+*/
 Macierz Macierz::macierzOdwrotna( Macierz &wzor) {
     Macierz wynik = wzor;
     if(~wynik==0)
@@ -389,4 +408,3 @@ Macierz Macierz::operator*(double liczba) {
     }
     return wynik;
 }
-
